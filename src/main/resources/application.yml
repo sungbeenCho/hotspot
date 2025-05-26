@@ -1,3 +1,6 @@
+server:
+  port: 8080  # ✅ Render가 인식할 포트 지정
+
 spring:
   jackson:
     serialization:
