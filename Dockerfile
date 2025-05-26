@@ -1,14 +1,10 @@
-# Java 21 버전의 경량 이미지 사용
-FROM openjdk:21-jdk-slim
-
-# 컨테이너 내 작업 디렉토리 설정
+FROM gradle:8.6-jdk21 AS builder
 WORKDIR /app
+COPY . .
+RUN gradle clean build -x test
 
-# jar 파일 복사 (Gradle 빌드시 생성된 jar 경로)
-COPY build/libs/hotspot-0.0.1-SNAPSHOT.jar app.jar
-
-# 애플리케이션이 실행될 포트 지정
+FROM openjdk:21-jdk-slim
+WORKDIR /app
+COPY --from=builder /app/build/libs/*.jar app.jar
 EXPOSE 8080
-
-# Spring Boot 실행
 ENTRYPOINT ["java", "-jar", "app.jar"]
