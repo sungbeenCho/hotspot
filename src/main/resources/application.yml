@@ -3,9 +3,9 @@ spring:
     serialization:
       order-map-entries-by-keys: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/hotspot_db
-    username: postgres
-    password: 1121
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
   jpa:
     hibernate:
       ddl-auto: update
