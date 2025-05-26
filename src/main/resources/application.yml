@@ -1,0 +1,26 @@
+spring:
+  jackson:
+    serialization:
+      order-map-entries-by-keys: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hotspot_db
+    username: postgres
+    password: 1121
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+logging:
+  level:
+    org.hibernate.SQL: ERROR       # SQL 로그 레벨을 ERROR로
+    org.hibernate.type.descriptor.sql.BasicBinder: ERROR  # 파라미터 바인딩 로그도 숨김
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
