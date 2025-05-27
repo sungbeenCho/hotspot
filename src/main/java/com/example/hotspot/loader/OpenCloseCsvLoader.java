@@ -25,8 +25,10 @@ public class OpenCloseCsvLoader {
 
         // ✅ DB에서 이미 존재하는 areaId + categoryCode 조합 불러오기
         Set<String> existingKeys = repository.findAll().stream()
+                .filter(s -> s.getAreaId() != null && s.getCategoryCode() != null)
                 .map(s -> s.getAreaId().trim() + "_" + s.getCategoryCode().trim())
                 .collect(Collectors.toSet());
+
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                 Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(fileName)),
