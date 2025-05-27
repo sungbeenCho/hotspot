@@ -21,11 +21,11 @@ public class OpenCloseCsvLoader {
 
     @PostConstruct
     public void loadOpenCloseData() {
-        String fileName = "도봉구_점포 개폐업(19~24년).csv";
+        String fileName = "도봉구_상권-업종별 개폐업.csv";
 
-        // ✅ DB에서 이미 존재하는 quarter + categoryCode 조합 불러오기
+        // ✅ DB에서 이미 존재하는 areaId + categoryCode 조합 불러오기
         Set<String> existingKeys = repository.findAll().stream()
-                .map(s -> s.getQuarter().trim() + "_" + s.getCategoryCode().trim())
+                .map(s -> s.getAreaId().trim() + "_" + s.getCategoryCode().trim())
                 .collect(Collectors.toSet());
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -40,14 +40,14 @@ public class OpenCloseCsvLoader {
             while ((line = reader.readLine()) != null) {
                 String[] t = line.split(",");
 
-                if (t.length < 10) {
+                if (t.length < 11) {
                     System.err.println("[OpenCloseCsvLoader] Invalid line: " + line);
                     continue;
                 }
 
-                String quarter = t[0].trim();
-                String categoryCode = t[1].trim();
-                String key = quarter + "_" + categoryCode;
+                String areaId = t[0].trim();
+                String categoryCode = t[2].trim();
+                String key = areaId + "_" + categoryCode;
 
                 if (existingKeys.contains(key)) {
                     skipped++;
@@ -56,16 +56,17 @@ public class OpenCloseCsvLoader {
                 existingKeys.add(key);
 
                 OpenCloseStat stat = new OpenCloseStat();
-                stat.setQuarter(quarter);
+                stat.setAreaId(areaId);
+                stat.setAreaName(t[1].trim());
                 stat.setCategoryCode(categoryCode);
-                stat.setCategoryName(t[2].trim());
-                stat.setTotalStores(parseInt(t[3]));
-                stat.setSimilarCategoryStores(parseInt(t[4]));
-                stat.setOpenRate(parseDouble(t[5]));
-                stat.setOpenCount(parseInt(t[6]));
-                stat.setCloseRate(parseDouble(t[7]));
-                stat.setCloseCount(parseInt(t[8]));
-                stat.setFranchiseStores(parseInt(t[9]));
+                stat.setCategoryName(t[3].trim());
+                stat.setTotalStores(parseInt(t[4]));
+                stat.setSimilarCategoryStores(parseInt(t[5]));
+                stat.setOpenRate(parseDouble(t[6]));
+                stat.setOpenCount(parseInt(t[7]));
+                stat.setCloseRate(parseDouble(t[8]));
+                stat.setCloseCount(parseInt(t[9]));
+                stat.setFranchiseStores(parseInt(t[10]));
 
                 repository.save(stat);
                 inserted++;

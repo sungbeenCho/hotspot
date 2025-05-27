@@ -9,17 +9,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "개폐업 통계 조회 API", description = "개폐업 통계를 조회하는 API")
+@Tag(name = "개폐업 통계 조회 API", description = "상권 내 업종별 개폐업 통계를 조회하는 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/open-close-stats")
+@RequestMapping("/areas/{areaId}/open-close-stats")
 public class OpenCloseStatController {
 
     private final OpenCloseStatService service;
 
-    @Operation(summary = "개폐업 통계 전체 조회", description = "업종별 분기 기준 개폐업 통계 반환")
+    @Operation(summary = "개폐업 통계 조회", description = "areaId 필수, categoryCode 선택")
     @GetMapping
-    public List<OpenCloseStatResponse> getAll() {
-        return service.getAllStats();
+    public List<OpenCloseStatResponse> getStats(
+            @PathVariable String areaId,
+            @RequestParam(required = false) String categoryCode
+    ) {
+        return service.getStats(areaId, categoryCode);
     }
 }

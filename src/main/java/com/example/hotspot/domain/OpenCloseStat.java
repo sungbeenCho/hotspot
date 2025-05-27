@@ -16,15 +16,17 @@ public class OpenCloseStat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String quarter; // 기준_년분기_코드
-    private String categoryCode; // 서비스_업종_코드
-    private String categoryName; // 서비스_업종_코드_명
+    private String areaId;
+    private String areaName;
 
-    private int totalStores; // 점포_수
-    private int similarCategoryStores; // 유사_업종_점포_수
-    private double openRate; // 개업_율
-    private int openCount; // 개업_점포_수
-    private double closeRate; // 폐업_률
-    private int closeCount; // 폐업_점포_수
-    private int franchiseStores; // 프랜차이즈_점포_수
+    private String categoryCode;
+    private String categoryName;
+
+    private int openCount;
+    private int closeCount;
+    private double openRate;
+    private double closeRate;
+    private int totalStores;
+    private int similarCategoryStores;
+    private int franchiseStores;
 }

@@ -8,9 +8,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class OpenCloseStatResponse {
-    private String quarter;
+
+    private String areaId;
+    private String areaName;
     private String categoryCode;
     private String categoryName;
+
     private int openCount;
     private int closeCount;
     private double openRate;

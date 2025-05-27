@@ -15,10 +15,19 @@ public class OpenCloseStatService {
 
     private final OpenCloseStatRepository repository;
 
-    public List<OpenCloseStatResponse> getAllStats() {
-        return repository.findAll().stream().map(stat -> {
+    public List<OpenCloseStatResponse> getStats(String areaId, String categoryCode) {
+        List<OpenCloseStat> stats;
+
+        if (categoryCode == null) {
+            stats = repository.findByAreaId(areaId);
+        } else {
+            stats = repository.findByAreaIdAndCategoryCode(areaId, categoryCode);
+        }
+
+        return stats.stream().map(stat -> {
             OpenCloseStatResponse dto = new OpenCloseStatResponse();
-            dto.setQuarter(stat.getQuarter());
+            dto.setAreaId(stat.getAreaId());
+            dto.setAreaName(stat.getAreaName());
             dto.setCategoryCode(stat.getCategoryCode());
             dto.setCategoryName(stat.getCategoryName());
             dto.setOpenCount(stat.getOpenCount());
